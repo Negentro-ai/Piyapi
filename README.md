@@ -441,8 +441,8 @@ Your app / AI tool
   <img src="https://img.shields.io/badge/Telegram-Coming%20Soon-26A5E4?style=flat&logo=telegram&logoColor=white" alt="Telegram (channel link coming soon)"/>
 </p>
 
-- 🐛 **Issues:** [GitHub Issues](https://github.com/NegentroWorld/Piyapi-by-Negentro/issues)
-- 💬 **Discussions:** [GitHub Discussions](https://github.com/NegentroWorld/Piyapi-by-Negentro/discussions)
+- 🐛 **Issues:** [GitHub Issues](https://github.com/Negentro-ai/Piyapi/issues)
+- 💬 **Discussions:** [GitHub Discussions](https://github.com/Negentro-ai/Piyapi/discussions)
 - 📖 **Documentation:** [piyapi.cloud/docs](https://piyapi.cloud/docs)
 - 🔒 **Security:** `negentroai@gmail.com`
 
@@ -899,11 +899,11 @@ python3 piyapi_quickstart.py
 
 ## Contributors
 
-<a href="https://github.com/NegentroWorld/Piyapi-by-Negentro/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=NegentroWorld/Piyapi-by-Negentro" alt="Contributors"/>
+<a href="https://github.com/Negentro-ai/Piyapi/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=Negentro-ai/Piyapi" alt="Contributors"/>
 </a>
 
-[View the project on GitHub](https://github.com/NegentroWorld/Piyapi-by-Negentro)
+[View the project on GitHub](https://github.com/Negentro-ai/Piyapi)
 
 ---
 
