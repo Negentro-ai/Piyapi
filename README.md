@@ -1,4 +1,4 @@
-﻿<p align="center">
+<p align="center">
   <img src="piyapi.png" width="400" alt="PiyAPI by Negentro"/>
 </p>
 
