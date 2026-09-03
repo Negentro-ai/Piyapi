@@ -167,7 +167,7 @@ const client = new PiyAPIClient({
 });
 
 // 1. 存储记忆
-await client.memory.create({
+await client.memories.create({
   content: '用户偏好深色模式 UI，主要使用 React 和 TypeScript 进行开发。',
   metadata: { source: 'onboarding_chat', user_id: 'usr_9918' },
 });
@@ -203,12 +203,12 @@ await client.branches.merge('experiment-a', 'main');
 <summary><b>Python</b></summary>
 
 ```python
-from piyapi import PiyAPIClient
+from piyapi_memory import PiyAPIClient
 
 client = PiyAPIClient(api_key="sk_live_...")
 
 # 1. 存储记忆
-client.memory.store(
+client.memories.create(
     content="用户偏好深色模式 UI，主要使用 React 和 TypeScript 进行开发。",
     metadata={"source": "onboarding_chat", "user_id": "usr_9918"}
 )
@@ -235,24 +235,13 @@ client.branches.merge("experiment-a", "main")
 </details>
 
 <details>
-<summary><b>LangChain 集成</b></summary>
+<summary><b>LangChain 适配器</b></summary>
 
 ```python
-from langchain.chains import ConversationChain
-from langchain_openai import ChatOpenAI
-from piyapi_langchain import PiyAPIChatMessageHistory
+from piyapi_langchain import PiyAPIMemoryRetriever
 
-history = PiyAPIChatMessageHistory(
-    session_id="user_session_492",
-    api_key="your_api_key"
-)
-
-conversation = ConversationChain(
-    llm=ChatOpenAI(model="gpt-4o"),
-    memory=history
-)
-
-response = conversation.predict(input="我们上周二的路线图决定是什么？")
+retriever = PiyAPIMemoryRetriever(api_key="sk_live_your_key_here")
+docs = retriever.get_relevant_documents("user database preferences")
 ```
 </details>
 
@@ -278,13 +267,48 @@ response = conversation.predict(input="我们上周二的路线图决定是什�
 
 ## 架构图
 
+### 系统架构
+
 ```mermaid
-graph LR
-    A[你的智能体] --> B[Piyapi API]
-    B --> C[混合检索]
-    B --> D[PiyGraph 知识图谱]
-    B --> E[双时态存储]
-    C & D & E --> F[上下文响应]
+flowchart TD
+    CLIENT["客户端层\nTypeScript SDK  |  Python SDK  |  MCP Server  |  cURL"]
+    GATEWAY["PIYAPI REST 网关 (api.piyapi.cloud)\n命名空间隔离  |  限流器  |  认证 & BYOK 守卫"]
+    MEMORY["内存引擎\n• 8种操作符\n• 双时态\n• 分支管理"]
+    COGNITIVE["认知引擎\n• 混合 RAG\n• PiyGraph 知识图谱\n• 主动推理"]
+    INTEGRATIONS["集成层\n• BYOK 管理器\n• 12个连接器\n• 30个 MCP 工具"]
+    DATA["数据与向量底座\nPostgreSQL + pgvector  |  双时态知识图谱  |  Redis 缓存"]
+
+    CLIENT --> GATEWAY
+    GATEWAY --> MEMORY
+    GATEWAY --> COGNITIVE
+    GATEWAY --> INTEGRATIONS
+    MEMORY --> DATA
+    COGNITIVE --> DATA
+    INTEGRATIONS --> DATA
+```
+
+### 认知请求流程
+
+```mermaid
+flowchart LR
+    AGENT(["🤖 AI 智能体"])
+    AUTH{"认证 &\n命名空间\n守卫"}
+    INFER["主动推理\n引擎"]
+    HYBRID["混合检索\n向量 + BM25\n(alpha 混合)"]
+    PRM["6策略\nPRM 评分器"]
+    GRAPH["PiyGraph\n双时态知识图谱"]
+    SLEEP["离线睡眠\n巩固"]
+    RESP(["📦 上下文响应\n+ 引用来源"])
+
+    AGENT -->|API 调用| AUTH
+    AUTH -->|已授权| INFER
+    INFER --> HYBRID
+    INFER --> GRAPH
+    HYBRID --> PRM
+    GRAPH --> PRM
+    PRM -->|评分记忆| SLEEP
+    SLEEP -->|整合上下文| RESP
+    RESP -->|回答 + 引用| AGENT
 ```
 
 ---
