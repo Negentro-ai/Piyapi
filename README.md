@@ -25,7 +25,6 @@
   <a href="https://pypi.org/project/piyapi-memory/"><img src="https://img.shields.io/pypi/v/piyapi-memory?style=for-the-badge&color=3776ab&logo=python&logoColor=white" alt="PyPI"/></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/License-Apache%202.0-8b5cf6?style=for-the-badge" alt="License"/></a>
   <a href="https://api.piyapi.cloud/health"><img src="https://img.shields.io/badge/Status-Operational-10b981?style=for-the-badge&logo=statuspage&logoColor=white" alt="System Status"/></a>
-
   <a href="packages/mcp-server/"><img src="https://img.shields.io/badge/MCP_Tools-40%2B-f97316?style=for-the-badge&logo=anthropic&logoColor=white" alt="MCP Tools"/></a>
   <a href="#-testing--verification"><img src="https://img.shields.io/badge/Tests-9258%20Passed-10b981?style=for-the-badge&logo=jest&logoColor=white" alt="Tests"/></a>
 </p>
@@ -50,7 +49,7 @@
 
 ## What is PiyAPI?
 
-**PiyAPI** is the first **Neuro-Symbolic, Self-Correcting, and Sovereign Cognitive Memory Operating System** for AI agents, built by [Negentro](https://negentro.com). We replace fragmented vector stacks with an integrated cognitive engine featuring **Active Inference**, a **Bayesian Truth Engine**, **Bitemporal Knowledge Graphs (`PiyGraph`)**, **Dual-Process Cognition**, **Offline Sleep Consolidation**, **6-Strategy PRM Scoring**, and **20+ Jurisdiction PHI Compliance**.
+**PiyAPI** is the first **Neuro-Symbolic, Self-Correcting, and Sovereign Cognitive Memory Operating System** for AI agents, built by [Negentro](https://www.negentro.tech/). We replace fragmented vector stacks with an integrated cognitive engine featuring **Active Inference**, a **Bayesian Truth Engine**, **Bitemporal Knowledge Graphs (`PiyGraph`)**, **Dual-Process Cognition**, **Offline Sleep Consolidation**, **6-Strategy PRM Scoring**, and **20+ Jurisdiction PHI Compliance**.
 
 Your AI forgets everything between conversations. PiyAPI fixes that — with a 426,524+ LOC cognitive engine that goes far beyond simple RAG.
 
@@ -431,7 +430,7 @@ Your app / AI tool
 ## 🤝 Community & Support
 
 <p align="center">
-  <a href="https://negentro.com"><img src="negentro.jpeg" width="80" alt="Negentro"/></a>
+  <a href="https://www.negentro.tech/"><img src="negentro.jpeg" width="80" alt="Negentro"/></a>
 </p>
 
 <p align="center">
@@ -910,7 +909,7 @@ python3 piyapi_quickstart.py
 
 ## License
 
-Apache 2.0 © [Negentro](https://negentro.com)
+Apache 2.0 © [Negentro](https://www.negentro.tech/)
 
 <p align="center">
 <strong>PiyAPI by Negentro — Giving AI Agents a True Persistent Mind.</strong>
