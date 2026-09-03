@@ -167,7 +167,7 @@ const client = new PiyAPIClient({
 });
 
 // 1. Store a memory
-await client.memory.create({
+await client.memories.create({
   content: 'User prefers dark mode UI and works primarily with React and TypeScript.',
   metadata: { source: 'onboarding_chat', user_id: 'usr_9918' },
 });
@@ -205,12 +205,12 @@ await client.branches.merge('experiment-a', 'main');
 <summary><b>Python</b></summary>
 
 ```python
-from piyapi import PiyAPIClient
+from piyapi_memory import PiyAPIClient
 
 client = PiyAPIClient(api_key="sk_live_...")
 
 # 1. Store a memory
-client.memory.store(
+client.memories.create(
     content="User prefers dark mode UI and works primarily with React and TypeScript.",
     metadata={"source": "onboarding_chat", "user_id": "usr_9918"}
 )
@@ -237,24 +237,13 @@ client.branches.merge("experiment-a", "main")
 </details>
 
 <details>
-<summary><b>LangChain Integration</b></summary>
+<summary><b>LangChain Adapter</b></summary>
 
 ```python
-from langchain.chains import ConversationChain
-from langchain_openai import ChatOpenAI
-from piyapi_langchain import PiyAPIChatMessageHistory
+from piyapi_langchain import PiyAPIMemoryRetriever
 
-history = PiyAPIChatMessageHistory(
-    session_id="user_session_492",
-    api_key="your_api_key"
-)
-
-conversation = ConversationChain(
-    llm=ChatOpenAI(model="gpt-4o"),
-    memory=history
-)
-
-response = conversation.predict(input="What was our roadmap decision last Tuesday?")
+retriever = PiyAPIMemoryRetriever(api_key="sk_live_your_key_here")
+docs = retriever.get_relevant_documents("user database preferences")
 ```
 </details>
 
@@ -280,14 +269,50 @@ Full API reference → [piyapi.cloud/docs](https://piyapi.cloud/docs) · OpenAPI
 
 ## Architecture
 
+### System Architecture
+
 ```mermaid
-graph LR
-    A[Your Agent] --> B[Piyapi API]
-    B --> C[Hybrid Search]
-    B --> D[PiyGraph KG]
-    B --> E[Bitemporal Store]
-    C & D & E --> F[Context Response]
+flowchart TD
+    CLIENT["CLIENT LAYER\nTypeScript SDK  |  Python SDK  |  MCP Server  |  cURL"]
+    GATEWAY["PIYAPI REST GATEWAY (api.piyapi.cloud)\nNamespace Scoping  |  Rate Limiter  |  Auth & BYOK Guard"]
+    MEMORY["MEMORY ENGINE\n• 8-Operators\n• Bitemporal\n• Branching"]
+    COGNITIVE["COGNITIVE ENGINE\n• Hybrid RAG\n• PiyGraph KG\n• Active Infer"]
+    INTEGRATIONS["INTEGRATIONS\n• BYOK Manager\n• 12 Connectors\n• 30 MCP Tools"]
+    DATA["DATA & VECTOR SUBSTRATE\nPostgreSQL + pgvector  |  Bitemporal KG  |  Redis Cache"]
+
+    CLIENT --> GATEWAY
+    GATEWAY --> MEMORY
+    GATEWAY --> COGNITIVE
+    GATEWAY --> INTEGRATIONS
+    MEMORY --> DATA
+    COGNITIVE --> DATA
+    INTEGRATIONS --> DATA
 ```
+
+### Cognitive Request Flow
+
+```mermaid
+flowchart LR
+    AGENT(["🤖 AI Agent"])
+    AUTH{"Auth &\nNamespace\nGuard"}
+    INFER["Active\nInference\nEngine"]
+    HYBRID["Hybrid Search\nVector + BM25\n(alpha blend)"]
+    PRM["6-Strategy\nPRM Scorer"]
+    GRAPH["PiyGraph\nBitemporal KG"]
+    SLEEP["Sleep\nConsolidation"]
+    RESP(["📦 Context\nResponse +\nCitations"])
+
+    AGENT -->|API call| AUTH
+    AUTH -->|authorized| INFER
+    INFER --> HYBRID
+    INFER --> GRAPH
+    HYBRID --> PRM
+    GRAPH --> PRM
+    PRM -->|scored memories| SLEEP
+    SLEEP -->|consolidated context| RESP
+    RESP -->|answer + citations| AGENT
+```
+
 
 ---
 
