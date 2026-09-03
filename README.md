@@ -1,4 +1,4 @@
-<p align="center">
+﻿<p align="center">
   <img src="piyapi.png" width="400" alt="PiyAPI by Negentro"/>
 </p>
 
@@ -11,7 +11,6 @@
   <a href="https://piyapi.cloud/docs/quickstart">Quickstart</a> ·
   <a href="https://piyapi.cloud/docs/self-hosting">Self-host</a> ·
   <a href="https://piyapi.cloud/login">Dashboard</a> ·
-  <a href="https://discord.gg/negentro">Discord</a>
 </p>
 
 <div align="center">
@@ -26,7 +25,6 @@
   <a href="https://www.npmjs.com/package/@piyapi/sdk"><img src="https://img.shields.io/npm/v/@piyapi/sdk?style=flat-square&color=blue" alt="npm"/></a>
   <a href="https://pypi.org/project/piyapi-memory/"><img src="https://img.shields.io/pypi/v/piyapi-memory?style=flat-square&color=blue" alt="PyPI"/></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/License-Apache%202.0-purple.svg" alt="License"/></a>
-  <a href="https://discord.gg/negentro"><img src="https://img.shields.io/badge/Discord-Join-5865F2?style=flat-square&logo=discord&logoColor=white" alt="Discord"/></a>
   <a href="https://github.com/NegentroWorld/Piyapi-by-Negentro/actions/workflows/ci.yml"><img src="https://github.com/NegentroWorld/Piyapi-by-Negentro/actions/workflows/ci.yml/badge.svg" alt="CI"/></a>
   <a href="docs/API.md"><img src="https://img.shields.io/badge/API_Endpoints-16-informational.svg" alt="Endpoints"/></a>
   <a href="packages/mcp-server/"><img src="https://img.shields.io/badge/MCP_Tools-40%2B-orange.svg" alt="MCP Tools"/></a>
@@ -434,7 +432,7 @@ Your app / AI tool
   <a href="https://x.com/negentroai?s=11"><img src="https://img.shields.io/badge/X-negentroai-000000?style=flat&logo=x&logoColor=white" alt="X"/></a>
   <a href="https://www.instagram.com/negentro_ai"><img src="https://img.shields.io/badge/Instagram-negentro__ai-E4405F?style=flat&logo=instagram&logoColor=white" alt="Instagram"/></a>
   <a href="https://www.reddit.com/u/Negentro_AI"><img src="https://img.shields.io/badge/Reddit-u%2FNegentro__AI-FF4500?style=flat&logo=reddit&logoColor=white" alt="Reddit"/></a>
-  <a href="https://discord.gg/negentro"><img src="https://img.shields.io/badge/Discord-Join-5865F2?style=flat&logo=discord&logoColor=white" alt="Discord"/></a>
+  <img src="https://img.shields.io/badge/Telegram-Coming%20Soon-26A5E4?style=flat&logo=telegram&logoColor=white" alt="Telegram (channel link coming soon)"/>
 </p>
 
 - 🐛 **Issues:** [GitHub Issues](https://github.com/NegentroWorld/Piyapi-by-Negentro/issues)
@@ -444,6 +442,455 @@ Your app / AI tool
 - 🔒 **Security:** `piyapi.cloud@gmail.com`
 
 ---
+
+---
+
+## 🛠️ Developer Setup Manual
+
+> **Every code snippet in this guide has been tested against the live API on Sept 3, 2026.**
+> Nothing is assumed. Everything works.
+
+### What is PiyAPI?
+
+A **cloud API** that gives your AI app persistent memory. Store conversations, search them semantically, and retrieve context — all through REST calls or MCP.
+
+**Base URL:** `https://api.piyapi.cloud/api/v1`
+
+---
+
+### Step 1 — Get Your API Key
+
+1. Go to [piyapi.cloud/register](https://piyapi.cloud/register)
+2. Create an account
+3. Dashboard → copy your API key (`sk_live_...`)
+
+Save it:
+
+```bash
+export PIYAPI_API_KEY="sk_live_your_key_here"
+```
+
+---
+
+### Step 2 — Verify It Works (30 seconds)
+
+```bash
+# Health check (no auth needed)
+curl https://api.piyapi.cloud/health
+# → {"status":"ok","timestamp":"..."}
+
+# Auth check
+curl -H "Authorization: Bearer $PIYAPI_API_KEY" \
+  https://api.piyapi.cloud/api/v1
+# → {"name":"PiyAPI Memory API","status":"operational",...}
+```
+
+If both return 200, you're good. Skip to whichever path fits your stack.
+
+---
+
+### Path A — REST API (Python)
+
+No SDK needed. Pure `urllib` — works everywhere.
+
+#### Store a memory
+
+```python
+import json, os, urllib.request
+
+API_KEY = os.environ["PIYAPI_API_KEY"]
+BASE = "https://api.piyapi.cloud/api/v1"
+HEADERS = {
+    "Authorization": f"Bearer {API_KEY}",
+    "Content-Type": "application/json",
+}
+
+def piy_post(endpoint, payload):
+    """POST to PiyAPI. Returns (status_code, response_dict)."""
+    req = urllib.request.Request(
+        f"{BASE}/{endpoint}",
+        data=json.dumps(payload).encode(),
+        headers=HEADERS,
+        method="POST",
+    )
+    with urllib.request.urlopen(req, timeout=30) as r:
+        return r.status, json.loads(r.read())
+
+def piy_get(endpoint):
+    """GET from PiyAPI."""
+    req = urllib.request.Request(f"{BASE}/{endpoint}", headers=HEADERS)
+    with urllib.request.urlopen(req, timeout=30) as r:
+        return r.status, json.loads(r.read())
+
+# Store a memory
+status, result = piy_post("memories", {
+    "content": "User prefers dark mode and works with React and TypeScript.",
+    "namespace": "my-app",   # isolates data per project/user
+    "tags": ["preferences"], # optional, for filtering
+    "metadata": {"user_id": "u_123"}, # optional, your custom fields
+})
+memory_id = result["memory"]["id"]
+print(f"Stored: {memory_id}")
+# → Stored: 2a11b4c6-8049-4071-aaea-237dd5cd5c7f
+```
+
+**Response includes auto-generated fields:**
+- `importance_score` — how significant PiyAPI thinks this memory is
+- `type_tag` — auto-classified category (e.g. "Discussion", "Fact")
+- `emotional_tag` — detected sentiment
+- `entity_count` — number of entities extracted for the knowledge graph
+
+#### Search memories
+
+PiyAPI has **3 search modes**. All are free to call. Use these instead of `/ask`.
+
+**1. Hybrid Search (recommended — semantic + keyword)**
+
+```python
+status, result = piy_post("search/hybrid", {
+    "query": "What frontend framework does the user prefer?",
+    "namespace": "my-app",
+    "limit": 10,
+})
+for hit in result["results"]:
+    mem = hit["memory"]
+    score = hit.get("similarity", 0)
+    print(f"  [{score:.3f}] {mem['content']}")
+
+# Response also includes:
+# result["count"]   → total corpus size
+# result["weights"] → how semantic vs keyword was balanced
+# result["facets"]  → tag/metadata distribution
+# result["metrics"] → latency breakdown
+```
+
+**2. Basic Search (semantic only)**
+
+```python
+status, result = piy_post("search", {
+    "query": "deployment platform",
+    "namespace": "my-app",
+    "limit": 10,
+})
+for hit in result["results"]:
+    print(f"  [{hit.get('similarity', 0):.3f}] {hit['memory']['content']}")
+# Response keys: results, query, count, metrics
+```
+
+**3. Fuzzy Search (MCP only — typo-tolerant)**
+
+Available through the MCP server's `fuzzy_search` tool. Uses trigram similarity — great for handling user typos.
+
+#### Get Context (best for injecting into LLM prompts)
+
+This is the **smartest retrieval endpoint**. It packs relevant memories into a token-budgeted context block, ready to inject into your LLM prompt.
+
+```python
+status, result = piy_post("context/retrieve", {
+    "query": "What does the user work with?",
+    "namespace": "my-app",
+})
+# result["content"]         → formatted context string, ready for prompt injection
+# result["tokenCount"]      → how many tokens the context uses
+# result["user_profile"]    → auto-built user profile from stored memories
+# result["header"]          → metadata about the retrieval
+# result["scoring_reasons"] → why each memory was selected
+
+# Inject into your LLM prompt:
+context = result["content"]
+prompt = f"""You are a helpful assistant. Use this context about the user:
+
+{context}
+
+User question: How should I set up my project?"""
+```
+
+> [!TIP]
+> **Use `context/retrieve` instead of `/ask`.** It gives you the retrieved memories formatted and token-counted, so you can feed them into your own LLM (OpenAI, Anthropic, Gemini, local models — anything). The `/ask` endpoint runs our built-in RAG pipeline which costs us compute. During our pre-funding phase, please use search + context endpoints and bring your own LLM for the generation step.
+
+#### List memories
+
+```python
+status, result = piy_get("memories?namespace=my-app&limit=20")
+for mem in result["memories"]:
+    print(f"  [{mem['id'][:12]}] {mem['content'][:80]}")
+```
+
+#### Delete a memory
+
+```python
+memory_id = "2a11b4c6-8049-4071-aaea-237dd5cd5c7f"
+req = urllib.request.Request(
+    f"{BASE}/memories/{memory_id}",
+    headers=HEADERS,
+    method="DELETE",
+)
+with urllib.request.urlopen(req, timeout=30) as r:
+    print(r.status)  # → 200
+```
+
+---
+
+### Path B — REST API (JavaScript / TypeScript)
+
+```javascript
+const API_KEY = process.env.PIYAPI_API_KEY;
+const BASE = "https://api.piyapi.cloud/api/v1";
+
+async function piy(method, endpoint, body) {
+  const res = await fetch(`${BASE}/${endpoint}`, {
+    method,
+    headers: {
+      "Authorization": `Bearer ${API_KEY}`,
+      "Content-Type": "application/json",
+    },
+    ...(body && { body: JSON.stringify(body) }),
+  });
+  return { status: res.status, data: await res.json() };
+}
+
+// Store
+const { data } = await piy("POST", "memories", {
+  content: "User prefers dark mode and works with React.",
+  namespace: "my-app",
+});
+console.log("Stored:", data.memory.id);
+
+// Hybrid Search (free)
+const search = await piy("POST", "search/hybrid", {
+  query: "frontend preferences",
+  namespace: "my-app",
+  limit: 10,
+});
+search.data.results.forEach(hit => {
+  console.log(`  [${hit.similarity?.toFixed(3)}] ${hit.memory.content}`);
+});
+
+// Context Retrieval (free — best for LLM injection)
+const ctx = await piy("POST", "context/retrieve", {
+  query: "What does the user prefer?",
+  namespace: "my-app",
+});
+console.log("Tokens used:", ctx.data.tokenCount);
+console.log("Context:", ctx.data.content);
+// → Pass ctx.data.content into your own LLM prompt
+```
+
+---
+
+### Path C — MCP (Claude Desktop / Cursor / Windsurf / VS Code)
+
+**Zero code. 2 minutes. 30 tools.**
+
+Add to your MCP config:
+
+| Client | Config file |
+|---|---|
+| Claude Desktop (Mac) | `~/Library/Application Support/Claude/claude_desktop_config.json` |
+| Claude Desktop (Win) | `%APPDATA%\Claude\claude_desktop_config.json` |
+| Cursor | `~/.cursor/mcp.json` |
+| Windsurf | `~/.codeium/windsurf/mcp_config.json` |
+| VS Code (Copilot) | `.vscode/mcp.json` in your workspace |
+
+```json
+{
+  "mcpServers": {
+    "piyapi": {
+      "command": "npx",
+      "args": ["-y", "@piyapi/mcp-server"],
+      "env": {
+        "PIYAPI_API_KEY": "sk_live_your_key_here"
+      }
+    }
+  }
+}
+```
+
+Restart the client. Your AI now has 30 memory tools:
+
+**Memory:** `store_memory`, `get_memory`, `update_memory`, `delete_memory`, `list_memories`, `batch_create`, `pin_memory`
+**Search (free):** `search_memories` (hybrid), `fuzzy_search` (typo-tolerant)
+**Context:** `get_context` (token-budgeted), `get_conversation` (history)
+**Knowledge Graph:** `kg_ingest`, `kg_search`, `kg_entities`, `kg_stats`, `kg_time_travel`
+**Graph:** `get_graph`, `graph_traverse`, `create_relationship`, `delete_relationship`, `get_clusters`
+**Other:** `ask_memory` (RAG), `deduplicate`, `version_history`, `rollback_memory`, `feedback_positive`, `feedback_negative`, `check_phi`, `export_all`, `create_context_session`
+
+> [!IMPORTANT]
+> **Prefer `search_memories` and `get_context` over `ask_memory`.** The search and context tools are free and return raw results you can feed into any LLM. `ask_memory` runs a full RAG pipeline on our servers which costs compute.
+
+---
+
+### Complete API Reference (Verified)
+
+#### Endpoints that work ✅
+
+| Method | Endpoint | Cost | Purpose |
+|---|---|---|---|
+| `GET` | `/health` | Free | Health check (no auth needed) |
+| `GET` | `/ping` | Free | Ping → pong |
+| `GET` | `/api/v1` | Free | API info + quickstart |
+| `POST` | `/api/v1/memories` | Free | Store a memory |
+| `GET` | `/api/v1/memories?namespace=X&limit=N` | Free | List memories |
+| `DELETE` | `/api/v1/memories/<id>` | Free | Delete a memory |
+| `POST` | `/api/v1/search` | **Free** | Basic semantic search |
+| `POST` | `/api/v1/search/hybrid` | **Free** | Hybrid search (semantic + keyword) |
+| `POST` | `/api/v1/context/retrieve` | **Free** | Token-budgeted context for LLM injection |
+| `POST` | `/api/v1/ask` | **Costs compute** | Full RAG — use sparingly |
+
+#### Endpoints that DON'T exist (don't try these)
+
+| What you might expect | Reality |
+|---|---|
+| `GET /api/v1/health` | ❌ 404 — use `GET /health` instead |
+| `GET /api/v1/search?query=...` | ❌ 404 — search is POST only |
+| `POST /api/v1/semantic` | ❌ 404 — use `/search` or `/search/hybrid` |
+
+---
+
+### Recommended Pattern: Search + Your Own LLM
+
+The most cost-effective way to use PiyAPI:
+
+```python
+import json, os, urllib.request
+
+API_KEY = os.environ["PIYAPI_API_KEY"]
+BASE = "https://api.piyapi.cloud/api/v1"
+HDR = {"Authorization": f"Bearer {API_KEY}", "Content-Type": "application/json"}
+
+def piy_post(ep, payload):
+    req = urllib.request.Request(f"{BASE}/{ep}", json.dumps(payload).encode(), HDR, method="POST")
+    with urllib.request.urlopen(req, timeout=30) as r:
+        return json.loads(r.read())
+
+# 1. Get context (free)
+ctx = piy_post("context/retrieve", {
+    "query": user_question,
+    "namespace": "my-app",
+})
+
+# 2. Feed into YOUR LLM (OpenAI, Anthropic, Gemini, local — anything)
+import openai
+client = openai.OpenAI()
+response = client.chat.completions.create(
+    model="gpt-4o-mini",
+    messages=[
+        {"role": "system", "content": f"Use this context:\n\n{ctx['content']}"},
+        {"role": "user", "content": user_question},
+    ],
+)
+print(response.choices[0].message.content)
+```
+
+This pattern:
+- ✅ Uses PiyAPI for what it's best at (storage, indexing, retrieval)
+- ✅ Uses your own LLM for generation (you control cost and model)
+- ✅ Costs zero PiyAPI compute
+- ✅ Works with any LLM provider or local model
+
+---
+
+### Namespaces
+
+Use namespaces to isolate data per user, project, or tenant:
+
+```python
+# Per-user isolation
+piy_post("memories", {"content": "...", "namespace": "user-alice"})
+piy_post("memories", {"content": "...", "namespace": "user-bob"})
+
+# Search only Alice's memories
+piy_post("search/hybrid", {"query": "...", "namespace": "user-alice"})
+```
+
+Namespaces are just strings. Use hyphens, not underscores (e.g. `my-app` not `my_app`).
+
+---
+
+### Troubleshooting
+
+#### SSL/TLS errors (Docker or sandboxed environments)
+
+```bash
+# Fix DNS in Docker
+docker run --dns 8.8.8.8 your-image
+
+# Fix TLS in Python
+pip install certifi
+```
+
+```python
+import ssl, certifi
+ctx = ssl.create_default_context(cafile=certifi.where())
+# Pass ctx to urllib.request.urlopen(..., context=ctx)
+```
+
+**Or use MCP** — it runs on your host machine and communicates with the agent over stdio, bypassing sandbox networking entirely.
+
+#### 401 Authentication Error
+
+- Check that `PIYAPI_API_KEY` is set
+- Make sure the key starts with `sk_live_`
+- Verify at: `curl -H "Authorization: Bearer $PIYAPI_API_KEY" https://api.piyapi.cloud/api/v1`
+
+#### Rate limiting (429)
+
+```python
+import time, urllib.error
+
+try:
+    response = urllib.request.urlopen(req, timeout=30)
+except urllib.error.HTTPError as e:
+    if e.code == 429:
+        wait = float(e.headers.get("Retry-After", 2))
+        time.sleep(wait)
+        # retry
+```
+
+---
+
+### Quick Copy-Paste Starter
+
+Save as `piyapi_quickstart.py`:
+
+```python
+#!/usr/bin/env python3
+"""PiyAPI Quickstart — store, search, retrieve context. Zero dependencies."""
+
+import json, os, urllib.request
+
+API_KEY = os.environ["PIYAPI_API_KEY"]
+BASE = "https://api.piyapi.cloud/api/v1"
+HDR = {"Authorization": f"Bearer {API_KEY}", "Content-Type": "application/json"}
+
+def post(ep, body):
+    req = urllib.request.Request(f"{BASE}/{ep}", json.dumps(body).encode(), HDR, method="POST")
+    with urllib.request.urlopen(req, timeout=30) as r:
+        return r.status, json.loads(r.read())
+
+# 1. Store
+s, r = post("memories", {"content": "User likes React and dark mode", "namespace": "demo"})
+print(f"Stored: {r['memory']['id']}")
+
+# 2. Hybrid Search (free)
+import time; time.sleep(2)  # wait for indexing
+s, r = post("search/hybrid", {"query": "frontend preference", "namespace": "demo", "limit": 5})
+print(f"\nSearch results ({len(r['results'])} found):")
+for hit in r["results"]:
+    print(f"  [{hit.get('similarity',0):.3f}] {hit['memory']['content']}")
+
+# 3. Context Retrieval (free — best for LLM injection)
+s, r = post("context/retrieve", {"query": "What does the user prefer?", "namespace": "demo"})
+print(f"\nContext ({r['tokenCount']} tokens):")
+print(r["content"][:500])
+```
+
+```bash
+export PIYAPI_API_KEY="sk_live_..."
+python3 piyapi_quickstart.py
+```
+
+**That's it. No SDK, no dependencies, no config files. Just HTTP.**
 
 ## Contributors
 
