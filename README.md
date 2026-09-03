@@ -9,8 +9,7 @@
 <p align="center">
   <a href="https://piyapi.cloud/docs">Docs</a> ·
   <a href="https://piyapi.cloud/docs/quickstart">Quickstart</a> ·
-  <a href="https://piyapi.cloud/docs/self-hosting">Self-host</a> ·
-  <a href="https://piyapi.cloud/login">Dashboard</a> ·
+  <a href="https://piyapi.cloud/">Dashboard</a>
 </p>
 
 <div align="center">
@@ -421,7 +420,7 @@ Your app / AI tool
 
 > ⚠️ PiyAPI provides technical controls (e.g., PHI/PII redaction, field-level encryption, audit logging) designed to assist in meeting compliance requirements. Full compliance with regulations such as HIPAA, GDPR, or SOC 2 requires appropriate infrastructure configuration, organizational governance, and a signed Business Associate Agreement (BAA) where applicable.
 
-**Security disclosures:** `piyapi.cloud@gmail.com` — do NOT open a public GitHub issue for security vulnerabilities.
+**Security disclosures:** `negentroai@gmail.com` — do NOT open a public GitHub issue for security vulnerabilities.
 
 ---
 
@@ -438,8 +437,7 @@ Your app / AI tool
 - 🐛 **Issues:** [GitHub Issues](https://github.com/NegentroWorld/Piyapi-by-Negentro/issues)
 - 💬 **Discussions:** [GitHub Discussions](https://github.com/NegentroWorld/Piyapi-by-Negentro/discussions)
 - 📖 **Documentation:** [piyapi.cloud/docs](https://piyapi.cloud/docs)
-- 🏢 **Enterprise & BAA:** `care.piyapi@outlook.com`
-- 🔒 **Security:** `piyapi.cloud@gmail.com`
+- 🔒 **Security:** `negentroai@gmail.com`
 
 ---
 
