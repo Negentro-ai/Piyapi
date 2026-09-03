@@ -25,13 +25,13 @@
   <a href="https://pypi.org/project/piyapi-memory/"><img src="https://img.shields.io/pypi/v/piyapi-memory?style=for-the-badge&color=3776ab&logo=python&logoColor=white" alt="PyPI"/></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/License-Apache%202.0-8b5cf6?style=for-the-badge" alt="License"/></a>
   <a href="https://api.piyapi.cloud/health"><img src="https://img.shields.io/badge/Status-Operational-10b981?style=for-the-badge&logo=statuspage&logoColor=white" alt="System Status"/></a>
-  <a href="packages/mcp-server/"><img src="https://img.shields.io/badge/MCP_Tools-40%2B-f97316?style=for-the-badge&logo=anthropic&logoColor=white" alt="MCP Tools"/></a>
+  <a href="#categorized-mcp-tools"><img src="https://img.shields.io/badge/MCP_Tools-40%2B-f97316?style=for-the-badge&logo=anthropic&logoColor=white" alt="MCP Tools"/></a>
   <a href="#-testing--verification"><img src="https://img.shields.io/badge/Tests-9258%20Passed-10b981?style=for-the-badge&logo=jest&logoColor=white" alt="Tests"/></a>
 </p>
 
 ---
 
-## 📈 Benchmarks (August 2026)
+## 📈 [Benchmarks (August 2026)](benchmark.md)
 
 **#1 on LongMemEval, LoCoMo, and ConvoMem** · 95% Recall@15 · 99.4% context reduction · ~50ms user profiles
 
