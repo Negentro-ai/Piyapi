@@ -25,13 +25,13 @@
   <a href="https://pypi.org/project/piyapi-memory/"><img src="https://img.shields.io/pypi/v/piyapi-memory?style=for-the-badge&color=3776ab&logo=python&logoColor=white" alt="PyPI"/></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/License-Apache%202.0-8b5cf6?style=for-the-badge" alt="License"/></a>
   <a href="https://api.piyapi.cloud/health"><img src="https://img.shields.io/badge/Status-Operational-10b981?style=for-the-badge&logo=statuspage&logoColor=white" alt="System Status"/></a>
-  <a href="packages/mcp-server/"><img src="https://img.shields.io/badge/MCP_Tools-40%2B-f97316?style=for-the-badge&logo=anthropic&logoColor=white" alt="MCP Tools"/></a>
+  <a href="#分类-mcp-工具目录"><img src="https://img.shields.io/badge/MCP_Tools-40%2B-f97316?style=for-the-badge&logo=anthropic&logoColor=white" alt="MCP Tools"/></a>
   <a href="#-测试与验证"><img src="https://img.shields.io/badge/Tests-9258%20Passed-10b981?style=for-the-badge&logo=jest&logoColor=white" alt="Tests"/></a>
 </p>
 
 ---
 
-## 📈 基准测试成绩 (2026年8月)
+## 📈 [基准测试成绩 (2026年8月)](benchmark.md)
 
 **在 LongMemEval、LoCoMo 和 ConvoMem 评测中排名第一** · 95% Recall@15 · 99.4% 上下文缩减 · ~50ms 用户画像生成
 
@@ -723,8 +723,8 @@ python3 piyapi_quickstart.py
   <img src="https://img.shields.io/badge/Telegram-Coming%20Soon-26A5E4?style=flat&logo=telegram&logoColor=white" alt="Telegram (channel link coming soon)"/>
 </p>
 
-- 🐛 **问题反馈：** [GitHub Issues](https://github.com/NegentroWorld/Piyapi-by-Negentro/issues)
-- 💬 **讨论区：** [GitHub Discussions](https://github.com/NegentroWorld/Piyapi-by-Negentro/discussions)
+- 🐛 **问题反馈：** [GitHub Issues](https://github.com/Negentro-ai/Piyapi/issues)
+- 💬 **讨论区：** [GitHub Discussions](https://github.com/Negentro-ai/Piyapi/discussions)
 - 📖 **文档：** [piyapi.cloud/docs](https://piyapi.cloud/docs)
 - 🏢 **企业合作与 BAA：** `care.piyapi@outlook.com`
 - 🔒 **安全披露：** `negentroai@gmail.com`
@@ -733,11 +733,11 @@ python3 piyapi_quickstart.py
 
 ## 贡献者
 
-<a href="https://github.com/NegentroWorld/Piyapi-by-Negentro/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=NegentroWorld/Piyapi-by-Negentro" alt="Contributors"/>
+<a href="https://github.com/Negentro-ai/Piyapi/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=Negentro-ai/Piyapi" alt="Contributors"/>
 </a>
 
-[在 GitHub 上查看项目](https://github.com/NegentroWorld/Piyapi-by-Negentro)
+[在 GitHub 上查看项目](https://github.com/Negentro-ai/Piyapi)
 
 ---
 
