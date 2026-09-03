@@ -1,0 +1,13 @@
+name: Health Check
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  health-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check API Health
+        run: curl -f https://api.piyapi.cloud/health
