@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "piyapi": {
+      "command": "npx",
+      "args": ["-y", "@piyapi/mcp-server"],
+      "env": {
+        "PIYAPI_API_KEY": "your_piyapi_api_key_here",
+        "PIYAPI_BASE_URL": "https://api.piyapi.cloud"
+      }
+    }
+  }
+}
