@@ -9,9 +9,7 @@
 <p align="center">
   <a href="https://piyapi.cloud/docs">文档</a> ·
   <a href="https://piyapi.cloud/docs/quickstart">快速开始</a> ·
-  <a href="https://piyapi.cloud/docs/self-hosting">私有化部署</a> ·
-  <a href="https://piyapi.cloud/login">控制台</a> ·
-  <a href="https://discord.gg/negentro">Discord</a>
+  <a href="https://piyapi.cloud/">控制台</a>
 </p>
 
 <div align="center">
@@ -23,19 +21,17 @@
 </div>
 
 <p align="center">
-  <a href="https://www.npmjs.com/package/@piyapi/sdk"><img src="https://img.shields.io/npm/v/@piyapi/sdk?style=flat-square&color=blue" alt="npm"/></a>
-  <a href="https://pypi.org/project/piyapi-memory/"><img src="https://img.shields.io/pypi/v/piyapi-memory?style=flat-square&color=blue" alt="PyPI"/></a>
-  <a href="LICENSE"><img src="https://img.shields.io/badge/License-Apache%202.0-purple.svg" alt="License"/></a>
-  <a href="https://discord.gg/negentro"><img src="https://img.shields.io/badge/Discord-加入-5865F2?style=flat-square&logo=discord&logoColor=white" alt="Discord"/></a>
-  <a href="https://github.com/NegentroWorld/Piyapi-by-Negentro/actions/workflows/ci.yml"><img src="https://github.com/NegentroWorld/Piyapi-by-Negentro/actions/workflows/ci.yml/badge.svg" alt="CI"/></a>
-  <a href="docs/API.md"><img src="https://img.shields.io/badge/API_Endpoints-16-informational.svg" alt="Endpoints"/></a>
-  <a href="packages/mcp-server/"><img src="https://img.shields.io/badge/MCP_Tools-40%2B-orange.svg" alt="MCP Tools"/></a>
-  <a href="#-测试与验证"><img src="https://img.shields.io/badge/Tests-9258%20passed-brightgreen.svg" alt="Tests"/></a>
+  <a href="https://www.npmjs.com/package/@piyapi/sdk"><img src="https://img.shields.io/npm/v/@piyapi/sdk?style=for-the-badge&color=2563eb&logo=npm" alt="npm"/></a>
+  <a href="https://pypi.org/project/piyapi-memory/"><img src="https://img.shields.io/pypi/v/piyapi-memory?style=for-the-badge&color=3776ab&logo=python&logoColor=white" alt="PyPI"/></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/License-Apache%202.0-8b5cf6?style=for-the-badge" alt="License"/></a>
+  <a href="https://api.piyapi.cloud/health"><img src="https://img.shields.io/badge/Status-Operational-10b981?style=for-the-badge&logo=statuspage&logoColor=white" alt="System Status"/></a>
+  <a href="packages/mcp-server/"><img src="https://img.shields.io/badge/MCP_Tools-40%2B-f97316?style=for-the-badge&logo=anthropic&logoColor=white" alt="MCP Tools"/></a>
+  <a href="#-测试与验证"><img src="https://img.shields.io/badge/Tests-9258%20Passed-10b981?style=for-the-badge&logo=jest&logoColor=white" alt="Tests"/></a>
 </p>
 
 ---
 
-## 基准测试成绩 (2026年8月)
+## 📈 基准测试成绩 (2026年8月)
 
 **在 LongMemEval、LoCoMo 和 ConvoMem 评测中排名第一** · 95% Recall@15 · 99.4% 上下文缩减 · ~50ms 用户画像生成
 
@@ -45,11 +41,15 @@
 | LongMemEval | **95.4** | 7.2K | 1.02s |
 | ConvoMem | **94.8** | 6.5K | 0.95s |
 
+<p align="center">
+  <a href="benchmark.md"><img src="https://img.shields.io/badge/完整基准报告-查看详情-6366f1?style=for-the-badge&logo=databricks&logoColor=white" alt="完整基准报告"/></a>
+</p>
+
 ---
 
 ## PiyAPI 是什么？
 
-**PiyAPI** 是首个专为 AI 代理设计的**神经符号化、可自我纠错且具备主权的认知内存操作系统**，由 [Negentro](https://negentro.com) 构建。我们通过集成了**主动推理**、**贝叶斯真相引擎**、**双时态知识图谱 (`PiyGraph`)**、**双系统认知**、**离线睡眠巩固**、**6 种策略的 PRM 评分**以及**兼容 20+ 司法管辖区 PHI 合规**的认知引擎，取代了碎片化的向量技术栈。
+**PiyAPI** 是首个专为 AI 代理设计的**神经符号化、可自我纠错且具备主权的认知内存操作系统**，由 [Negentro](https://www.negentro.tech/) 构建。我们通过集成了**主动推理**、**贝叶斯真相引擎**、**双时态知识图谱 (`PiyGraph`)**、**双系统认知**、**离线睡眠巩固**、**6 种策略的 PRM 评分**以及**兼容 20+ 司法管辖区 PHI 合规**的认知引擎，取代了碎片化的向量技术栈。
 
 你的 AI 在两次对话之间会遗忘一切。PiyAPI 解决了这个问题 —— 这是一个拥有 426,524+ 行代码的认知引擎，远超简单的 RAG。
 
@@ -392,29 +392,342 @@ npm run test:chaos # 运行混乱及弹性测试套件
 
 ---
 
+## 底层工作原理
+
+```
+你的应用 / AI 工具
+        ↓
+     PiyAPI
+        │
+        ├── 内存引擎        8 操作统一接口，双时态存储，
+        │                  事实冲突解决，自动遗忘机制
+        ├── 认知 RAG        上下文感知问答，自动引用生成
+        ├── PiyGraph KG     双时态知识图谱，支持时间旅行查询
+        ├── 混合检索        密集向量 + BM25 关键词，可调 Alpha 混合
+        ├── 推测性分支      类 Git 的记忆实验与版本管理
+        ├── BYOK 路由器     多提供商密钥路由，自动故障转移
+        ├── 数据连接器      12 个实时 CDC 连接器，Webhook 同步
+        ├── 隐私引擎        PHI/PII 脱敏，Token 化，合规支持
+        └── 文件处理        PDF、图像、视频、代码 → 可检索片段
+```
+
+**记忆不等于 RAG。** RAG 检索的是文档片段 — 无状态，对所有人返回相同结果。记忆随时间推移提取并追踪*用户相关事实*，解决矛盾并遗忘过期信息。PiyAPI 默认同时运行两者。
+
+**双时态推理。** 每条记忆都有两个时间维度：该事实在现实世界中为真的时间（`valid_at`）以及系统记录它的时间（`system_at`）。这使得时间旅行查询和审计追踪成为可能，而传统记忆系统无法做到这一点。
+
+**主动推理。** PiyAPI 的认知引擎采用 Friston 自由能原则框架进行智能记忆形成 — 不只是存储你告诉它的内容，而是主动建模和预测需要什么上下文。
+
+---
+
+## 🛠️ 开发者配置手册
+
+> **本指南中的每个代码片段均已于 2026年9月3日针对实时 API 进行测试。**
+> 无任何假设。一切皆可运行。
+
+### 第一步 — 获取 API 密钥
+
+1. 前往 [piyapi.cloud/register](https://piyapi.cloud/register)
+2. 创建账户
+3. 控制台 → 复制你的 API 密钥（`sk_live_...`）
+
+保存密钥：
+
+```bash
+export PIYAPI_API_KEY="sk_live_your_key_here"
+```
+
+---
+
+### 第二步 — 验证连接（30秒）
+
+```bash
+# 健康检查（无需认证）
+curl https://api.piyapi.cloud/health
+# → {"status":"ok","timestamp":"..."}
+
+# 认证检查
+curl -H "Authorization: Bearer $PIYAPI_API_KEY" \
+  https://api.piyapi.cloud/api/v1
+# → {"name":"PiyAPI Memory API","status":"operational",...}
+```
+
+---
+
+### 路径 A — REST API (Python)
+
+```python
+import json, os, urllib.request
+
+API_KEY = os.environ["PIYAPI_API_KEY"]
+BASE = "https://api.piyapi.cloud/api/v1"
+HEADERS = {
+    "Authorization": f"Bearer {API_KEY}",
+    "Content-Type": "application/json",
+}
+
+def piy_post(endpoint, payload):
+    req = urllib.request.Request(
+        f"{BASE}/{endpoint}",
+        data=json.dumps(payload).encode(),
+        headers=HEADERS,
+        method="POST",
+    )
+    with urllib.request.urlopen(req, timeout=30) as r:
+        return r.status, json.loads(r.read())
+
+def piy_get(endpoint):
+    req = urllib.request.Request(f"{BASE}/{endpoint}", headers=HEADERS)
+    with urllib.request.urlopen(req, timeout=30) as r:
+        return r.status, json.loads(r.read())
+
+# 存储记忆
+status, result = piy_post("memories", {
+    "content": "用户偏好深色模式，使用 React 和 TypeScript 进行开发。",
+    "namespace": "my-app",
+    "tags": ["preferences"],
+    "metadata": {"user_id": "u_123"},
+})
+memory_id = result["memory"]["id"]
+print(f"已存储: {memory_id}")
+```
+
+#### 混合检索
+
+```python
+status, result = piy_post("search/hybrid", {
+    "query": "用户偏好的前端框架是什么？",
+    "namespace": "my-app",
+    "limit": 10,
+})
+for hit in result["results"]:
+    mem = hit["memory"]
+    score = hit.get("similarity", 0)
+    print(f"  [{score:.3f}] {mem['content']}")
+```
+
+#### 获取上下文（最适合注入 LLM 提示词）
+
+```python
+status, result = piy_post("context/retrieve", {
+    "query": "用户的工作内容是什么？",
+    "namespace": "my-app",
+})
+context = result["content"]
+prompt = f"""你是一个助手。请利用以下用户上下文：
+
+{context}
+
+用户问题：我应该如何搭建项目？"""
+```
+
+> [!TIP]
+> **推荐使用 `context/retrieve` 而非 `/ask`。** 在预融资阶段，请使用搜索和上下文端点，并使用你自己的 LLM 完成生成步骤。
+
+---
+
+### 路径 B — REST API (JavaScript / TypeScript)
+
+```javascript
+const API_KEY = process.env.PIYAPI_API_KEY;
+const BASE = "https://api.piyapi.cloud/api/v1";
+
+async function piy(method, endpoint, body) {
+  const res = await fetch(`${BASE}/${endpoint}`, {
+    method,
+    headers: {
+      "Authorization": `Bearer ${API_KEY}`,
+      "Content-Type": "application/json",
+    },
+    ...(body && { body: JSON.stringify(body) }),
+  });
+  return { status: res.status, data: await res.json() };
+}
+
+// 存储
+const { data } = await piy("POST", "memories", {
+  content: "用户偏好深色模式，使用 React 进行开发。",
+  namespace: "my-app",
+});
+console.log("已存储:", data.memory.id);
+
+// 混合检索（免费）
+const search = await piy("POST", "search/hybrid", {
+  query: "前端偏好",
+  namespace: "my-app",
+  limit: 10,
+});
+search.data.results.forEach(hit => {
+  console.log(`  [${hit.similarity?.toFixed(3)}] ${hit.memory.content}`);
+});
+
+// 上下文检索（免费——最适合 LLM 注入）
+const ctx = await piy("POST", "context/retrieve", {
+  query: "用户偏好什么？",
+  namespace: "my-app",
+});
+console.log("使用 Tokens:", ctx.data.tokenCount);
+console.log("上下文:", ctx.data.content);
+```
+
+---
+
+### 路径 C — MCP（Claude Desktop / Cursor / Windsurf / VS Code）
+
+**零代码。2分钟。30个工具。**
+
+| 客户端 | 配置文件 |
+|---|---|
+| Claude Desktop (Mac) | `~/Library/Application Support/Claude/claude_desktop_config.json` |
+| Claude Desktop (Win) | `%APPDATA%\Claude\claude_desktop_config.json` |
+| Cursor | `~/.cursor/mcp.json` |
+| Windsurf | `~/.codeium/windsurf/mcp_config.json` |
+| VS Code (Copilot) | `.vscode/mcp.json`（工作区内） |
+
+```json
+{
+  "mcpServers": {
+    "piyapi": {
+      "command": "npx",
+      "args": ["-y", "@piyapi/mcp-server"],
+      "env": {
+        "PIYAPI_API_KEY": "sk_live_your_key_here"
+      }
+    }
+  }
+}
+```
+
+> [!IMPORTANT]
+> **优先使用 `search_memories` 和 `get_context`，而非 `ask_memory`。**
+
+---
+
+### 完整 API 参考（已验证）
+
+| 方法 | 端点 | 费用 | 目的 |
+|---|---|---|---|
+| `GET` | `/health` | 免费 | 健康检查（无需认证） |
+| `GET` | `/ping` | 免费 | Ping → pong |
+| `GET` | `/api/v1` | 免费 | API 信息 |
+| `POST` | `/api/v1/memories` | 免费 | 存储记忆 |
+| `GET` | `/api/v1/memories?namespace=X&limit=N` | 免费 | 列举记忆 |
+| `DELETE` | `/api/v1/memories/<id>` | 免费 | 删除记忆 |
+| `POST` | `/api/v1/search` | **免费** | 基础语义检索 |
+| `POST` | `/api/v1/search/hybrid` | **免费** | 混合检索 |
+| `POST` | `/api/v1/context/retrieve` | **免费** | Token 感知上下文 |
+| `POST` | `/api/v1/ask` | **消耗算力** | 完整 RAG |
+
+---
+
+### 命名空间
+
+```python
+# 按用户隔离
+piy_post("memories", {"content": "...", "namespace": "user-alice"})
+piy_post("memories", {"content": "...", "namespace": "user-bob"})
+
+# 仅检索 Alice 的记忆
+piy_post("search/hybrid", {"query": "...", "namespace": "user-alice"})
+```
+
+命名空间只是字符串。使用连字符而非下划线（例如 `my-app` 而非 `my_app`）。
+
+---
+
+### 故障排除
+
+#### SSL/TLS 错误
+
+```bash
+docker run --dns 8.8.8.8 your-image
+pip install certifi
+```
+
+#### 401 认证错误
+
+- 检查 `PIYAPI_API_KEY` 是否已设置
+- 确保密钥以 `sk_live_` 开头
+
+#### 速率限制 (429)
+
+```python
+import time, urllib.error
+try:
+    response = urllib.request.urlopen(req, timeout=30)
+except urllib.error.HTTPError as e:
+    if e.code == 429:
+        wait = float(e.headers.get("Retry-After", 2))
+        time.sleep(wait)
+```
+
+---
+
+### 快速复制粘贴入门
+
+```python
+#!/usr/bin/env python3
+"""PiyAPI 快速开始 — 零依赖。"""
+
+import json, os, urllib.request
+
+API_KEY = os.environ["PIYAPI_API_KEY"]
+BASE = "https://api.piyapi.cloud/api/v1"
+HDR = {"Authorization": f"Bearer {API_KEY}", "Content-Type": "application/json"}
+
+def post(ep, body):
+    req = urllib.request.Request(f"{BASE}/{ep}", json.dumps(body).encode(), HDR, method="POST")
+    with urllib.request.urlopen(req, timeout=30) as r:
+        return r.status, json.loads(r.read())
+
+s, r = post("memories", {"content": "用户喜欢 React 和深色模式", "namespace": "demo"})
+print(f"已存储: {r['memory']['id']}")
+
+import time; time.sleep(2)
+s, r = post("search/hybrid", {"query": "前端偏好", "namespace": "demo", "limit": 5})
+for hit in r["results"]:
+    print(f"  [{hit.get('similarity',0):.3f}] {hit['memory']['content']}")
+
+s, r = post("context/retrieve", {"query": "用户偏好什么？", "namespace": "demo"})
+print(f"\n上下文（{r['tokenCount']} tokens）：")
+print(r["content"][:500])
+```
+
+```bash
+export PIYAPI_API_KEY="sk_live_..."
+python3 piyapi_quickstart.py
+```
+
+**就这些。无 SDK，无依赖，无配置文件。仅 HTTP。**
+
+---
+
 ## 法律与合规免责声明
 
 > ⚠️ PiyAPI 提供技术控制措施 (例如 PHI/PII 脱敏、字段级加密、审计日志)，旨在协助满足合规要求。若要全面遵守 HIPAA、GDPR 或 SOC 2 等法规，必须进行适当的基础设施配置、组织治理，并在适用的情况下签署业务伙伴协议 (BAA)。
 
-**安全披露：** `piyapi.cloud@gmail.com` — 请勿就安全漏洞提交公开 GitHub Issue。
+**安全披露：** `negentroai@gmail.com` — 请勿就安全漏洞提交公开 GitHub Issue。
 
 ---
 
 ## 🤝 社区与支持
 
 <p align="center">
+  <a href="https://www.negentro.tech/"><img src="negentro.jpeg" width="80" alt="Negentro"/></a>
+</p>
+
+<p align="center">
   <a href="https://www.linkedin.com/company/negentroai/"><img src="https://img.shields.io/badge/LinkedIn-negentroai-0077B5?style=flat&logo=linkedin&logoColor=white" alt="LinkedIn"/></a>
   <a href="https://x.com/negentroai?s=11"><img src="https://img.shields.io/badge/X-negentroai-000000?style=flat&logo=x&logoColor=white" alt="X"/></a>
   <a href="https://www.instagram.com/negentro_ai"><img src="https://img.shields.io/badge/Instagram-negentro__ai-E4405F?style=flat&logo=instagram&logoColor=white" alt="Instagram"/></a>
   <a href="https://www.reddit.com/u/Negentro_AI"><img src="https://img.shields.io/badge/Reddit-u%2FNegentro__AI-FF4500?style=flat&logo=reddit&logoColor=white" alt="Reddit"/></a>
-  <a href="https://discord.gg/negentro"><img src="https://img.shields.io/badge/Discord-加入-5865F2?style=flat&logo=discord&logoColor=white" alt="Discord"/></a>
+  <img src="https://img.shields.io/badge/Telegram-Coming%20Soon-26A5E4?style=flat&logo=telegram&logoColor=white" alt="Telegram (channel link coming soon)"/>
 </p>
 
 - 🐛 **问题反馈：** [GitHub Issues](https://github.com/NegentroWorld/Piyapi-by-Negentro/issues)
 - 💬 **讨论区：** [GitHub Discussions](https://github.com/NegentroWorld/Piyapi-by-Negentro/discussions)
 - 📖 **文档：** [piyapi.cloud/docs](https://piyapi.cloud/docs)
 - 🏢 **企业合作与 BAA：** `care.piyapi@outlook.com`
-- 🔒 **安全披露：** `piyapi.cloud@gmail.com`
+- 🔒 **安全披露：** `negentroai@gmail.com`
 
 ---
 
@@ -430,7 +743,7 @@ npm run test:chaos # 运行混乱及弹性测试套件
 
 ## 许可证
 
-Apache 2.0 © [Negentro](https://negentro.com)
+Apache 2.0 © [Negentro](https://www.negentro.tech/)
 
 <p align="center">
 <strong>PiyAPI by Negentro — 赋予 AI 代理真正持久的心智。</strong>
