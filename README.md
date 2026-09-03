@@ -43,7 +43,7 @@
 | ConvoMem | **94.8** | 6.5K | 0.95s |
 
 <p align="center">
-  <a href="BENCHMARKS.md"><img src="https://img.shields.io/badge/Full%20Benchmark%20Report-View%20Details-6366f1?style=for-the-badge&logo=databricks&logoColor=white" alt="Full Benchmark Report"/></a>
+  <a href="benchmark.md"><img src="https://img.shields.io/badge/Full%20Benchmark%20Report-View%20Details-6366f1?style=for-the-badge&logo=databricks&logoColor=white" alt="Full Benchmark Report"/></a>
 </p>
 
 ---
@@ -429,6 +429,10 @@ Your app / AI tool
 ---
 
 ## 🤝 Community & Support
+
+<p align="center">
+  <a href="https://negentro.com"><img src="negentro.jpeg" width="80" alt="Negentro"/></a>
+</p>
 
 <p align="center">
   <a href="https://www.linkedin.com/company/negentroai/"><img src="https://img.shields.io/badge/LinkedIn-negentroai-0077B5?style=flat&logo=linkedin&logoColor=white" alt="LinkedIn"/></a>
