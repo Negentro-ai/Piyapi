@@ -4,23 +4,23 @@ Thank you for your interest in contributing to Piyapi!
 
 ## What you can contribute
 
-- Bug reports for the SDK clients
+- Bug reports for the SDK clients, MCP server, and urllib adapter
 - Feature requests
 - Documentation improvements
 - Example projects
-- SDK pull requests (TypeScript + Python clients)
+- Pull requests for the SDK (TypeScript + Python), MCP server, and urllib adapter
 
 ## What is not open for contribution
 
-The core Piyapi engine is proprietary. SDK clients and tooling PRs are welcome.
+The core Piyapi engine is proprietary. PRs for SDK clients, MCP server, urllib adapter, and tooling are welcome.
 
 ## How to report a bug
 
 1. Check existing issues first
 2. Use the Bug Report template
-3. Include: SDK version, language, minimal reproduction, expected vs actual
+3. Include: SDK/MCP/urllib version, language, minimal reproduction, expected vs actual
 
-## Development setup (SDK)
+## Development setup (SDK, MCP, urllib)
 
 ```bash
 npm install && npm run dev
