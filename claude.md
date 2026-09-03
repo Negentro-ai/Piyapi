@@ -122,7 +122,7 @@ This document provides a comprehensive technical guide for any AI agent or softw
     return <h2>{t.hero.headlineMemory}</h2>
   }
   ```
-- **Language Switcher**: Located in [`src/components/Footer.tsx`](file:///src/components/Footer.tsx). Buttons (`En`, `Es`, `Fr`, `De`, `Ru`) invoke `setLanguage(code)`. Active selection is underlined in violet. State is persisted in `localStorage` under `negentro_lang` and synchronized to `<html lang="...">`.
+- **Language Switcher**: Located in [`src/components/Footer.tsx`](src/components/Footer.tsx). Buttons (`En`, `Es`, `Fr`, `De`, `Ru`) invoke `setLanguage(code)`. Active selection is underlined in violet. State is persisted in `localStorage` under `negentro_lang` and synchronized to `<html lang="...">`.
 
 ### B. Supabase Waitlist Integration (`src/lib/supabase.ts`)
 - **Table**: `public.waitlist`
