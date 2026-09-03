@@ -24,7 +24,7 @@
   <a href="https://www.npmjs.com/package/@piyapi/sdk"><img src="https://img.shields.io/npm/v/@piyapi/sdk?style=flat-square&color=blue" alt="npm"/></a>
   <a href="https://pypi.org/project/piyapi-memory/"><img src="https://img.shields.io/pypi/v/piyapi-memory?style=flat-square&color=blue" alt="PyPI"/></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/License-Apache%202.0-purple.svg" alt="License"/></a>
- src="https://github.com/NegentroWorld/Piyapi-by-Negentro/actions/workflows/ci.yml/badge.svg" alt="CI"/></a>
+ 
   <a href="docs/API.md"><img src="https://img.shields.io/badge/API_Endpoints-16-informational.svg" alt="Endpoints"/></a>
   <a href="packages/mcp-server/"><img src="https://img.shields.io/badge/MCP_Tools-40%2B-orange.svg" alt="MCP Tools"/></a>
   <a href="#-testing--verification"><img src="https://img.shields.io/badge/Tests-9258%20passed-brightgreen.svg" alt="Tests"/></a>
