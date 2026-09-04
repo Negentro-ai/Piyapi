@@ -1,6 +1,6 @@
 <p align="center">
   <img src="piyapi.png" width="400" alt="PiyAPI by Negentro"/>
-</p>
+</p> 
 
 <p align="center">
   <b>The cognitive memory API for AI agents. Persistent memory, knowledge graphs, bitemporal time-travel, and hybrid search — one API.</b>
